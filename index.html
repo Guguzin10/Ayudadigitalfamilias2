@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Guía SMART interactiva para familias</title>
+<style>
+  :root{
+    --bg:#0f172a;
+    --panel:#111827;
+    --panel-2:#1f2937;
+    --line:#334155;
+    --text:#e5e7eb;
+    --muted:#94a3b8;
+    --accent:#38bdf8;
+    --good:#22c55e;
+    --mid:#f59e0b;
+    --bad:#ef4444;
+    --chip:#0b1220;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family: Arial, Helvetica, sans-serif;
+    background:linear-gradient(180deg,#0b1020 0%, #0f172a 100%);
+    color:var(--text);
+    line-height:1.45;
+  }
+  .wrap{
+    max-width:1100px;
+    margin:0 auto;
+    padding:24px;
+  }
+  .hero{
+    background:linear-gradient(135deg,#111827 0%, #0f172a 60%, #082f49 100%);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:24px;
+    box-shadow:0 10px 30px rgba(0,0,0,.25);
+  }
+  h1{
+    margin:0 0 8px 0;
+    color:#e0f2fe;
+    font-size:clamp(1.8rem, 3vw, 2.7rem);
+  }
+  .subtitle{
+    color:var(--muted);
+    margin:0;
+    max-width:900px;
+  }
+
+  .scoreboard{
+    margin-top:20px;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+  }
+  .card{
+    background:rgba(17,24,39,.9);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:16px;
+  }
+  .metric{
+    font-size:2rem;
+    font-weight:700;
+    margin:4px 0 0;
+  }
+  .label{
+    color:var(--muted);
+    font-size:.95rem;
+  }
+  .badge{
+    display:inline-block;
+    padding:6px 10px;
+    border-radius:999px;
+    font-weight:700;
+    font-size:.9rem;
+    color:#fff;
+    background:var(--panel-2);
+    border:1px solid var(--line);
+  }
+  .bar{
+    width:100%;
+    height:12px;
+    background:#0b1220;
+    border-radius:999px;
+    overflow:hidden;
+    border:1px solid var(--line);
+    margin-top:10px;
+  }
+  .fill{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,var(--bad),var(--mid),var(--good));
+    transition:width .25s ease;
+  }
+
+  .tools{
+    margin-top:18px;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  button{
+    border:1px solid var(--line);
+    background:var(--panel);
+    color:var(--text);
+    padding:10px 14px;
+    border-radius:12px;
+    cursor:pointer;
+    font-weight:700;
+  }
+  button:hover{background:#182235}
+  .notice{
+    margin-top:14px;
+    color:var(--muted);
+    font-size:.95rem;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:1.15fr .85fr;
+    gap:18px;
+    margin-top:22px;
+  }
+
+  details{
+    background:rgba(17,24,39,.92);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:0;
+    overflow:hidden;
+    margin-bottom:14px;
+  }
+  summary{
+    list-style:none;
+    cursor:pointer;
+    padding:16px 18px;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    background:linear-gradient(90deg,#111827,#172033);
+  }
+  summary::-webkit-details-marker{display:none}
+  .section-body{padding:18px}
+  .smart{
+    background:var(--chip);
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:14px;
+    margin-bottom:14px;
+  }
+  .smart h3{margin:0 0 10px;font-size:1rem;color:#bae6fd}
+  .smart ul{margin:0;padding-left:18px}
+  .smart li{margin:7px 0}
+  .tips{
+    background:#07111f;
+    border-left:4px solid var(--accent);
+    border-radius:10px;
+    padding:12px 14px;
+    margin-top:12px;
+  }
+  .tips strong{color:#e0f2fe}
+  .checklist{
+    margin-top:14px;
+    display:grid;
+    gap:10px;
+  }
+  .item{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    background:#0b1220;
+    border:1px solid var(--line);
+    border-radius:12px;
+    padding:10px 12px;
+  }
+  .item input{
+    width:18px;
+    height:18px;
+    margin-top:3px;
+    accent-color:#38bdf8;
+    flex:0 0 auto;
+  }
+  .item span{
+    display:block;
+  }
+  .mini{
+    font-size:.9rem;
+    color:var(--muted);
+  }
+  .right-col .card{margin-bottom:16px}
+  .legend p{margin:8px 0}
+  .qual{
+    font-weight:700;
+    font-size:1.1rem;
+  }
+  .weekly-list{
+    margin:0;
+    padding-left:18px;
+  }
+  .weekly-list li{margin:8px 0}
+  .footer{
+    margin-top:20px;
+    color:var(--muted);
+    text-align:center;
+    font-size:.92rem;
+  }
+  .score-chip{
+    padding:6px 10px;
+    border-radius:999px;
+    font-weight:700;
+    border:1px solid var(--line);
+    background:#09111d;
+    min-width:84px;
+    text-align:center;
+  }
+  .toprow{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+
+  @media (max-width:900px){
+    .scoreboard{grid-template-columns:repeat(2,1fr)}
+    .grid{grid-template-columns:1fr}
+  }
+  @media (max-width:560px){
+    .scoreboard{grid-template-columns:1fr}
+    .wrap{padding:14px}
+    summary{padding:14px}
+    .section-body{padding:14px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="hero">
+    <h1>Guía SMART interactiva para familias</h1>
+    <p class="subtitle">Herramienta práctica para revisar cada semana cómo se está gestionando en casa el uso de pantallas, redes sociales, contenidos audiovisuales, descanso, bienestar emocional y ejemplo familiar.</p>
+
+    <div class="scoreboard">
+      <div class="card">
+        <div class="label">Puntuación semanal</div>
+        <div id="score" class="metric">0%</div>
+        <div class="bar"><div id="fill" class="fill"></div></div>
+      </div>
+      <div class="card">
+        <div class="label">Nivel de consecución</div>
+        <div id="level" class="metric">Inicial</div>
+      </div>
+      <div class="card">
+        <div class="label">Valoración cualitativa</div>
+        <div id="qualitative" class="badge">Aún no evaluada</div>
+      </div>
+      <div class="card">
+        <div class="label">Items logrados</div>
+        <div id="hits" class="metric">0/27</div>
+      </div>
+    </div>
+
+    <div class="tools">
+      <button type="button" onclick="expandAll()">Abrir todos los apartados</button>
+      <button type="button" onclick="collapseAll()">Cerrar todos los apartados</button>
+      <button type="button" onclick="resetChecklist()">Reiniciar checklist semanal</button>
+    </div>
+    <p class="notice">Marca los ítems que sí se han cumplido esta semana. La herramienta calcula automáticamente la puntuación y ofrece una valoración cualitativa. Los datos solo se guardan en este dispositivo.</p>
+  </section>
+
+  <div class="grid">
+    <main>
+      <details open>
+        <summary>
+          <span>⏱️ 1. Tiempo de uso</span>
+          <span class="score-chip" id="sec1score">0/4</span>
+        </summary>
+        <div class="section-body">
+          <div class="smart">
+            <h3>Pauta SMART</h3>
+            <ul>
+              <li>Entre semana: máximo 60–90 minutos de pantallas al día.</li>
+              <li>Fin de semana: máximo 120 minutos diarios.</li>
+              <li>Actividad física o juego activo: mínimo 60 minutos al día.</li>
+              <li>El tiempo de pantalla se distribuye, no se concentra en sesiones largas.</li>
+            </ul>
+          </div>
+          <div class="tips">
+            <strong>Consejos para conseguirlo:</strong>
+            <ul>
+              <li>Usad temporizador visible o alarma en el móvil de la familia.</li>
+              <li>Definid de antemano cuándo empieza y cuándo termina el tiempo de pantalla.</li>
+              <li>Ofreced una alternativa concreta antes de quitar la pantalla: paseo, juego de mesa, bicicleta, lectura breve.</li>
+              <li>No negociéis el tiempo extra una vez terminado, salvo situación excepcional previamente acordada.</li>
+            </ul>
+          </div>
+          <div class="checklist">
+            <label class="item"><input type="checkbox" class="check sec1"><span>Entre semana se ha respetado el tiempo máximo previsto. <span class="mini">Revisión: al menos 5 días.</span></span></label>
+            <label class="item"><input type="checkbox" class="check sec1"><span>El fin de semana no se han superado los 120 minutos diarios.</span></label>
+            <label class="item"><input type="checkbox" class="check sec1"><span>Ha habido cada día al menos 60 minutos de actividad física o juego activo.</span></label>
+            <label class="item"><input type="checkbox" class="check sec1"><span>No ha habido sesiones largas de pantalla sin pausas ni supervisión.</span></label>
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary>
+          <span>😴 2. Descanso y desconexión nocturna</span>
+          <span class="score-chip" id="sec2score">0/4</span>
+        </summary>
+        <div class="section-body">
+          <div class="smart">
+            <h3>Pauta SMART</h3>
+            <ul>
+              <li>Cero pantallas durante la hora previa al sueño.</li>
+              <li>Dispositivos fuera de la habitación todas las noches.</li>
+              <li>Hora de apagado orientativa: Primaria 21:00 / ESO 22:00.</li>
+              <li>Descanso real: 8–10 horas según edad.</li>
+            </ul>
+          </div>
+          <div class="tips">
+            <strong>Consejos para conseguirlo:</strong>
+            <ul>
+              <li>Cread un “aparcamiento de móviles” en salón o cocina.</li>
+              <li>Sustituid la última hora por rutina estable: ducha, lectura, conversación, preparación del día siguiente.</li>
+              <li>Retirad también tablet, consola y televisión del dormitorio.</li>
+              <li>Si cuesta desconectar, bajad 15 minutos cada tres días hasta alcanzar el objetivo.</li>
+            </ul>
+          </div>
+          <div class="checklist">
+            <label class="item"><input type="checkbox" class="check sec2"><span>No ha usado pantallas en la última hora antes de dormir.</span></label>
+            <label class="item"><input type="checkbox" class="check sec2"><span>El móvil, tablet o consola han dormido fuera de la habitación.</span></label>
+            <label class="item"><input type="checkbox" class="check sec2"><span>Se ha respetado la hora límite de apagado en casa.</span></label>
+            <label class="item"><input type="checkbox" class="check sec2"><span>Ha dormido las horas adecuadas y ha llegado descansado/a por la mañana.</span></label>
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary>
+          <span>📺 3. Contenidos: series, vídeos, películas y videojuegos</span>
+          <span class="score-chip" id="sec3score">0/4</span>
+        </summary>
+        <div class="section-body">
+          <div class="smart">
+            <h3>Pauta SMART</h3>
+            <ul>
+              <li>100% de los contenidos conocidos por la familia.</li>
+              <li>Ningún contenido por encima de la edad recomendada.</li>
+              <li>Al menos una visualización compartida a la semana.</li>
+              <li>Conversación posterior breve sobre lo que ha visto o jugado.</li>
+            </ul>
+          </div>
+          <div class="tips">
+            <strong>Consejos para conseguirlo:</strong>
+            <ul>
+              <li>Consultad la clasificación por edades antes de permitir una serie o juego.</li>
+              <li>No preguntéis solo “qué has visto”; pedid que os cuente una escena o personaje.</li>
+              <li>Si un contenido no es adecuado, explicad el motivo en vez de limitaros a prohibirlo.</li>
+              <li>Mantened una lista familiar de contenidos permitidos y otra de pendientes de revisión.</li>
+            </ul>
+          </div>
+          <div class="checklist">
+            <label class="item"><input type="checkbox" class="check sec3"><span>Esta semana la familia ha sabido qué contenidos ha consumido.</span></label>
+            <label class="item"><input type="checkbox" class="check sec3"><span>No ha accedido a contenidos no adecuados para su edad.</span></label>
+            <label class="item"><input type="checkbox" class="check sec3"><span>Se ha visto o jugado juntos al menos una vez esta semana.</span></label>
+            <label class="item"><input type="checkbox" class="check sec3"><span>Ha habido una conversación posterior sobre lo que ha visto o jugado.</span></label>
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary>
+          <span>🌐 4. Redes sociales y privacidad</span>
+          <span class="score-chip" id="sec4score">0/4</span>
+        </summary>
+        <div class="section-body">
+          <div class="smart">
+            <h3>Pauta SMART</h3>
+            <ul>
+              <li>No usar redes sociales antes de la edad mínima legal.</li>
+              <li>Si existen cuentas, revisión conjunta semanal de 10–15 minutos.</li>
+              <li>La familia conoce contactos, ajustes de privacidad y tipo de publicaciones.</li>
+              <li>Cero cuentas ocultas o desconocidas por los adultos responsables.</li>
+            </ul>
+          </div>
+          <div class="tips">
+            <strong>Consejos para conseguirlo:</strong>
+            <ul>
+              <li>Explicad que supervisar no es invadir, sino acompañar.</li>
+              <li>Revisad juntos privacidad, seguidores, mensajes y tiempo de uso.</li>
+              <li>No publiquéis vosotros imágenes comprometidas si luego queréis exigir prudencia.</li>
+              <li>Enseñad una regla sencilla: “lo que no dirías en persona, no lo publiques”.</li>
+            </ul>
+          </div>
+          <div class="checklist">
+            <label class="item"><input type="checkbox" class="check sec4"><span>Se ha respetado la edad mínima o, si no, se ha limitado y supervisado de forma estricta.</span></label>
+            <label class="item"><input type="checkbox" class="check sec4"><span>La familia ha realizado una revisión conjunta esta semana.</span></label>
+            <label class="item"><input type="checkbox" class="check sec4"><span>Se conocen los contactos y las publicaciones principales.</span></label>
+            <label class="item"><input type="checkbox" class="check sec4"><span>No hay cuentas, apps ocultas o usos paralelos desconocidos.</span></label>
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary>
+          <span>🏠 5. Normas en casa</span>
+          <span class="score-chip" id="sec5score">0/4</span>
+        </summary>
+        <div class="section-body">
+          <div class="smart">
+            <h3>Pauta SMART</h3>
+            <ul>
+              <li>Existen 3 normas visibles: tiempo, espacios y horario de desconexión.</li>
+              <li>Se revisan una vez al mes.</li>
+              <li>Todos los adultos aplican el mismo criterio.</li>
+              <li>Las consecuencias por incumplimiento están claras y son proporcionadas.</li>
+            </ul>
+          </div>
+          <div class="tips">
+            <strong>Consejos para conseguirlo:</strong>
+            <ul>
+              <li>Escribid las normas y colocadlas en un lugar visible.</li>
+              <li>Reducidlas a pocas, pero cumplibles.</li>
+              <li>Usad frases positivas: “el móvil se usa en el salón”, mejor que “no lo uses mal”.</li>
+              <li>Acordad entre adultos qué vais a hacer exactamente si no se cumplen.</li>
+            </ul>
+          </div>
+          <div class="checklist">
+            <label class="item"><input type="checkbox" class="check sec5"><span>Las normas están escritas o verbalizadas con claridad.</span></label>
+            <label class="item"><input type="checkbox" class="check sec5"><span>Esta semana se han aplicado con coherencia.</span></label>
+            <label class="item"><input type="checkbox" class="check sec5"><span>Los adultos han mantenido el mismo criterio.</span></label>
+            <label class="item"><input type="checkbox" class="check sec5"><span>Las consecuencias se han aplicado sin gritos ni improvisación.</span></label>
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary>
+          <span>❤️ 6. Bienestar emocional</span>
+          <span class="score-chip" id="sec6score">0/4</span>
+        </summary>
+        <div class="section-body">
+          <div class="smart">
+            <h3>Pauta SMART</h3>
+            <ul>
+              <li>Una conversación semanal consciente sobre uso digital y emociones.</li>
+              <li>Observación de señales: irritabilidad, apatía, aislamiento o dependencia.</li>
+              <li>Actuación temprana si aparecen cambios llamativos dos semanas seguidas.</li>
+              <li>Relacionar pantallas con estado de ánimo, no solo con comportamiento.</li>
+            </ul>
+          </div>
+          <div class="tips">
+            <strong>Consejos para conseguirlo:</strong>
+            <ul>
+              <li>Buscad un momento tranquilo: paseo, cena, coche, antes de dormir.</li>
+              <li>Preguntad sin juicio: “¿qué te gusta de eso?” o “¿te ha hecho sentir mal algo?”.</li>
+              <li>Tomad nota si observáis varios cambios repetidos durante la semana.</li>
+              <li>Si hay irritabilidad intensa al retirar dispositivos, no normalicéis la situación.</li>
+            </ul>
+          </div>
+          <div class="checklist">
+            <label class="item"><input type="checkbox" class="check sec6"><span>Ha habido esta semana una conversación consciente sobre su mundo digital.</span></label>
+            <label class="item"><input type="checkbox" class="check sec6"><span>No se han observado signos claros de irritabilidad o dependencia.</span></label>
+            <label class="item"><input type="checkbox" class="check sec6"><span>No ha habido aislamiento social llamativo ni apatía persistente.</span></label>
+            <label class="item"><input type="checkbox" class="check sec6"><span>Si ha surgido una señal de alerta, la familia ha reaccionado y no la ha minimizado.</span></label>
+          </div>
+        </div>
+      </details>
+
+      <details>
+        <summary>
+          <span>👨‍👩‍👧 7. Ejemplo familiar</span>
+          <span class="score-chip" id="sec7score">0/3</span>
+        </summary>
+        <div class="section-body">
+          <div class="smart">
+            <h3>Pauta SMART</h3>
+            <ul>
+              <li>Cero móviles en comidas familiares.</li>
+              <li>Al menos 20 minutos diarios de tiempo compartido sin pantallas.</li>
+              <li>Los adultos reducen el uso visible del móvil delante de los menores.</li>
+            </ul>
+          </div>
+          <div class="tips">
+            <strong>Consejos para conseguirlo:</strong>
+            <ul>
+              <li>Guardad todos los móviles en una cesta durante la comida.</li>
+              <li>Reservad una franja fija diaria: merienda, paseo, charla o juego breve.</li>
+              <li>Si pedís que apaguen el móvil, hacedlo también vosotros en ese momento.</li>
+              <li>Recordad que el ejemplo arrastra más que cualquier discurso.</li>
+            </ul>
+          </div>
+          <div class="checklist">
+            <label class="item"><input type="checkbox" class="check sec7"><span>Las comidas o cenas familiares han sido sin móviles.</span></label>
+            <label class="item"><input type="checkbox" class="check sec7"><span>Ha habido al menos 20 minutos diarios de tiempo compartido sin pantallas.</span></label>
+            <label class="item"><input type="checkbox" class="check sec7"><span>Los adultos han dado ejemplo con un uso moderado y coherente.</span></label>
+          </div>
+        </div>
+      </details>
+    </main>
+
+    <aside class="right-col">
+      <div class="card">
+        <div class="toprow">
+          <span class="badge">Cómo funciona</span>
+        </div>
+        <ul class="weekly-list">
+          <li>Usad esta lista una vez por semana, siempre el mismo día.</li>
+          <li>Marcáis únicamente lo que realmente se ha conseguido.</li>
+          <li>No pretende culpabilizar, sino ayudar a detectar prioridades.</li>
+          <li>Empezad por mejorar dos o tres aspectos cada semana.</li>
+        </ul>
+      </div>
+
+      <div class="card legend">
+        <div class="label">Escala de valoración</div>
+        <p><strong style="color:#22c55e;">90–100%</strong> · Excelente seguimiento familiar.</p>
+        <p><strong style="color:#84cc16;">75–89%</strong> · Buen nivel de gestión, con ajustes menores.</p>
+        <p><strong style="color:#f59e0b;">50–74%</strong> · Nivel intermedio; conviene revisar hábitos.</p>
+        <p><strong style="color:#fb7185;">25–49%</strong> · Seguimiento insuficiente; se necesitan cambios claros.</p>
+        <p><strong style="color:#ef4444;">0–24%</strong> · Situación de alerta; urge reorganizar normas y acompañamiento.</p>
+      </div>
+
+      <div class="card">
+        <div class="label">Lectura cualitativa actual</div>
+        <p id="qualText" class="qual">Marca el checklist para obtener tu valoración semanal.</p>
+      </div>
+
+      <div class="card">
+        <div class="label">Sugerencia práctica</div>
+        <p>Cuando la puntuación baje, no intentéis cambiarlo todo a la vez. Elegid un solo bloque prioritario: por ejemplo, descanso o tiempo de uso. Mantened esa mejora dos semanas antes de añadir otra.</p>
+      </div>
+    </aside>
+  </div>
+
+  <p class="footer">CEIP San José · Herramienta de autoevaluación familiar para el acompañamiento del uso responsable de pantallas y redes.</p>
+</div>
+
+<script>
+  const checks = Array.from(document.querySelectorAll('.check'));
+  const sections = {
+    sec1: 4,
+    sec2: 4,
+    sec3: 4,
+    sec4: 4,
+    sec5: 4,
+    sec6: 4,
+    sec7: 3
+  };
+
+  function getState(){
+    return checks.map(c => c.checked);
+  }
+
+  function saveState(){
+    localStorage.setItem('guia_smart_familias_checks', JSON.stringify(getState()));
+  }
+
+  function loadState(){
+    const saved = localStorage.getItem('guia_smart_familias_checks');
+    if(saved){
+      try{
+        const arr = JSON.parse(saved);
+        checks.forEach((c,i)=> c.checked = !!arr[i]);
+      }catch(e){}
+    }
+  }
+
+  function sectionHits(name){
+    return document.querySelectorAll('.' + name + ':checked').length;
+  }
+
+  function updateSectionScores(){
+    Object.keys(sections).forEach(name=>{
+      const hits = sectionHits(name);
+      document.getElementById(name + 'score').textContent = hits + '/' + sections[name];
+    });
+  }
+
+  function qualitativeText(score){
+    if(score >= 90) return {
+      level:'Excelente',
+      badge:'Excelente seguimiento familiar',
+      text:'Se aprecia una gestión sólida, coherente y sostenida. Conviene mantener las rutinas y revisar periódicamente los contenidos y la supervisión digital.',
+      color:'#22c55e'
+    };
+    if(score >= 75) return {
+      level:'Adecuado',
+      badge:'Buen nivel de gestión',
+      text:'La base es buena. Hay acompañamiento y normas, aunque algunos aspectos todavía pueden afianzarse para evitar retrocesos.',
+      color:'#84cc16'
+    };
+    if(score >= 50) return {
+      level:'Intermedio',
+      badge:'Nivel mejorable',
+      text:'Existen avances, pero todavía hay hábitos inconsistentes. Es recomendable priorizar uno o dos ámbitos y trabajarlos con constancia las próximas semanas.',
+      color:'#f59e0b'
+    };
+    if(score >= 25) return {
+      level:'Básico',
+      badge:'Seguimiento insuficiente',
+      text:'La gestión actual resulta poco estable. Se necesitan normas más claras, mayor supervisión y una actuación más regular por parte de los adultos.',
+      color:'#fb7185'
+    };
+    return {
+      level:'Inicial',
+      badge:'Situación de alerta',
+      text:'El acompañamiento digital es claramente insuficiente. Urge reorganizar tiempos, normas, descanso y supervisión para prevenir problemas de convivencia, bienestar o rendimiento.',
+      color:'#ef4444'
+    };
+  }
+
+  function updateScore(){
+    const total = checks.length;
+    const hits = document.querySelectorAll('.check:checked').length;
+    const score = Math.round((hits / total) * 100);
+
+    document.getElementById('score').textContent = score + '%';
+    document.getElementById('hits').textContent = hits + '/' + total;
+    document.getElementById('fill').style.width = score + '%';
+
+    const q = qualitativeText(score);
+    document.getElementById('level').textContent = q.level;
+
+    const badge = document.getElementById('qualitative');
+    badge.textContent = q.badge;
+    badge.style.background = q.color;
+    badge.style.borderColor = q.color;
+
+    const qualText = document.getElementById('qualText');
+    qualText.textContent = q.text;
+    qualText.style.color = q.color;
+
+    updateSectionScores();
+    saveState();
+  }
+
+  function resetChecklist(){
+    if(confirm('¿Quieres reiniciar toda la autoevaluación semanal?')){
+      checks.forEach(c => c.checked = false);
+      updateScore();
+      localStorage.removeItem('guia_smart_familias_checks');
+    }
+  }
+
+  function expandAll(){
+    document.querySelectorAll('details').forEach(d => d.open = true);
+  }
+
+  function collapseAll(){
+    document.querySelectorAll('details').forEach(d => d.open = false);
+  }
+
+  checks.forEach(c => c.addEventListener('change', updateScore));
+
+  loadState();
+  updateScore();
+</script>
+</body>
+</html>
